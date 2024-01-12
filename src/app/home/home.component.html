@@ -1,0 +1,153 @@
+<div class="container light-style flex-grow-1 container-p-y">
+  <h4 class="font-weight-bold py-3 mb-4">Account settings</h4>
+
+  <div class="card overflow-hidden">
+    <div class="row no-gutters row-bordered row-border-light">
+      <div class="col-md-3 pt-0">
+        <div class="list-group list-group-flush account-settings-links">
+            <a
+            class="list-group-item list-group-item-action"
+            data-toggle="list"
+            >General</a
+          >
+          <a
+            class="list-group-item list-group-item-action"
+            data-toggle="list"
+            href="#account-general"
+            >Profile</a
+          >
+          <a
+            class="list-group-item list-group-item-action"
+            data-toggle="list"
+            href="#account-change-password"
+            >Security</a
+          >
+          <a
+          class="list-group-item list-group-item-action"
+          data-toggle="list"
+          href="#account-delete"
+          >Settings</a
+        >
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="tab-content">
+          <div class="tab-pane fade active show" id="account-general">
+            <div class="card-body media align-items-center">
+              <button type="button" class="btn btn-primary" (click)="logOut()">Log out</button>
+            </div>
+            <hr class="border-light m-0" />
+            <form (ngSubmit)="onUpdateUser()" #userForm="ngForm">
+              <div class="card-body">
+                <div class="form-group">
+                  <label class="form-label">First Name</label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    [(ngModel)]="user.firstName"
+                    required
+                    class="form-control mb-1"
+                    value="nmaxwell"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Last Name</label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    [(ngModel)]="user.lastName"
+                    required
+                    class="form-control"
+                    value="Nelle Maxwell"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Username</label>
+                  <input
+                    type="text"
+                    name="username"
+                    [(ngModel)]="user.username"
+                    class="form-control"
+                    value="Nelle Maxwell"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">E-mail</label>
+                  <input
+                    type="text"
+                    name="email"
+                    [(ngModel)]="user.email"
+                    class="form-control mb-1"
+                    value="nmaxwell@mail.com"
+                  />
+                </div>
+                <div class="form-group">
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    [disabled]="userForm.invalid || showLoading"
+                  >
+                    <span *ngIf="showLoading">Loading...</span>
+                    <span *ngIf="!showLoading">Update</span>
+                  </button>
+                </div>
+                <div class="form-group">
+                  <p *ngIf="successMessage">Your account have been updated.</p>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="tab-pane fade" id="account-change-password">
+            <div class="card-body pb-2">
+              <label class="d-block">JWT (Json Web Token)</label>
+              <div class="form-group">
+                <p class="form-label">
+                  Last Logon : {{ user.logInDateDisplay | date : "medium" }}
+                </p>
+              </div>
+              <div class="form-group">
+                <h6 class="form-label">
+                  Expiration : {{ tokenExpirationDate | date : "medium" }}
+                </h6>
+                <button
+                  (click)="setButtonText()"
+                  class="btn btn-sm btn-warning mb-1"
+                  type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
+                >
+                  {{ buttonText }}
+                </button>
+              </div>
+
+              <div class="collapse mt-2" id="collapseExample">
+                <div
+                  (click)="copyTokenToClipboard()"
+                  class="card card-body"
+                  id="token-container"
+                >
+                  Bearer {{ token }}
+              </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="account-delete">
+            <div class="card-body pb-2">
+              <div class="form-group">
+                <label class="form-label text-danger">Delete Account</label>
+              </div>
+              <div class="form-group">
+                <p>One you delete your account, there is no going back. Please be certain.</p>
+                <button
+                  (click)="onDeleteUser(user.username)"
+                  class="btn btn-danger"
+                  type="button"
+                >
+                  Delete Account
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
